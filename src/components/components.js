@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from 'react'
+import Skeleton from 'react-loading-skeleton'
+
 export function Logo() {
   return (
     <div className="nav__logo logo">
@@ -7,11 +10,24 @@ export function Logo() {
 }
 
 export function Burger() {
+  const [visible, setVisible] = useState(true)
+
+  function showNavMenu() {
+    setVisible(!visible)
+  }
+
   return (
-    <div className="nav__burger burger">
-      <span className="burger__line"></span>
-      <span className="burger__line"></span>
-      <span className="burger__line"></span>
+    <div>
+      <div
+        className="nav__burger burger"
+        onClick={showNavMenu}
+        style={{ cursor: 'pointer' }}
+      >
+        <span className="burger__line"></span>
+        <span className="burger__line"></span>
+        <span className="burger__line"></span>
+      </div>
+      {!visible && <NavMenu />}
     </div>
   )
 }
@@ -36,17 +52,6 @@ export function NavMenu() {
           </a>
         </li>
       </ul>
-    </div>
-  )
-}
-
-export function Filter() {
-  return (
-    <div className="centerblock__filter filter">
-      <div className="filter__title">Искать по:</div>
-      <div className="filter__button button-author _btn-text">исполнителю</div>
-      <div className="filter__button button-year _btn-text">году выпуска</div>
-      <div className="filter__button button-genre _btn-text">жанру</div>
     </div>
   )
 }
@@ -77,43 +82,6 @@ export function PlaylistTitleCol() {
         <svg className="playlist-title__svg" alt="time">
           <use xlinkHref="img/icon/sprite.svg#icon-watch"></use>
         </svg>
-      </div>
-    </div>
-  )
-}
-
-export function Track(props) {
-  return (
-    <div className="playlist__item">
-      <div className="playlist__track track">
-        <div className="track__title">
-          <div className="track__title-image">
-            <svg className="track__title-svg" alt="music">
-              <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
-            </svg>
-          </div>
-          <div className="track__title-text">
-            <a className="track__title-link" href="http://">
-              {props.title} <span className="track__title-span"></span>
-            </a>
-          </div>
-        </div>
-        <div className="track__author">
-          <a className="track__author-link" href="http://">
-            {props.author}
-          </a>
-        </div>
-        <div className="track__album">
-          <a className="track__album-link" href="http://">
-            {props.album}
-          </a>
-        </div>
-        <div className="track__time">
-          <svg className="track__time-svg" alt="time">
-            <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
-          </svg>
-          <span className="track__time-text">{props.time}</span>
-        </div>
       </div>
     </div>
   )
@@ -171,40 +139,54 @@ export function PlayerControls() {
 }
 
 export function PlayerTrack() {
-  return (
-    <div className="player__track-play track-play">
-      <div className="track-play__contain">
-        <div className="track-play__image">
-          <svg className="track-play__svg" alt="music">
-            <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
-          </svg>
-        </div>
-        <div className="track-play__author">
-          <a className="track-play__author-link" href="http://">
-            Ты та...
-          </a>
-        </div>
-        <div className="track-play__album">
-          <a className="track-play__album-link" href="http://">
-            Баста
-          </a>
-        </div>
-      </div>
+  const [data, setData] = useState(null)
 
-      <div className="track-play__like-dis">
-        <div className="track-play__like _btn-icon">
-          <svg className="track-play__like-svg" alt="like">
-            <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
-          </svg>
+  useEffect(() => {
+    fetch('https://painassasin.online/catalog/track/8')
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data)
+      })
+  }, [])
+
+  if (data) {
+    return (
+      <div className="player__track-play track-play">
+        <div className="track-play__contain">
+          <div className="track-play__image">
+            <svg className="track-play__svg" alt="music">
+              {<use xlinkHref="img/icon/sprite.svg#icon-note"></use> || (
+                <Skeleton />
+              )}
+            </svg>
+          </div>
+          <div className="track-play__title">
+            <a className="track-play__tilte-link" href="http://">
+              {data.name || <Skeleton />}
+            </a>
+          </div>
+          <div className="track-play__author">
+            <a className="track-play__author-link" href="http://">
+              {data.author || <Skeleton />}
+            </a>
+          </div>
         </div>
-        <div className="track-play__dislike _btn-icon">
-          <svg className="track-play__dislike-svg" alt="dislike">
-            <use xlinkHref="img/icon/sprite.svg#icon-dislike"></use>
-          </svg>
+
+        <div className="track-play__like-dis">
+          <div className="track-play__like _btn-icon">
+            <svg className="track-play__like-svg" alt="like">
+              <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
+            </svg>
+          </div>
+          <div className="track-play__dislike _btn-icon">
+            <svg className="track-play__dislike-svg" alt="dislike">
+              <use xlinkHref="img/icon/sprite.svg#icon-dislike"></use>
+            </svg>
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export function Volume() {
