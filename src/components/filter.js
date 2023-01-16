@@ -1,4 +1,13 @@
 import React, { useState } from 'react'
+import {
+  StyledFilter,
+  StyledFilterTitle,
+  StyledFilterButton,
+  StyledDropdown,
+  StyledDropdownList,
+  StyledDropdownItem,
+  StyledDropdownYear,
+} from '../styles/styles'
 import { tracks } from './tracks'
 
 let authors = []
@@ -19,8 +28,6 @@ export function Filter() {
   const [visibleGenre, setVisibleGenre] = useState(true)
   const [visibleYear, setVisibleYear] = useState(true)
 
-  const [filterBtnStyle, setFilterBtnStyle] = useState(false)
-
   function showFilterDropdownAuthor() {
     if (!visibleGenre) {
       setVisibleGenre(!visibleGenre)
@@ -28,8 +35,6 @@ export function Filter() {
     if (!visibleYear) {
       setVisibleYear(!visibleYear)
     }
-
-    setFilterBtnStyle(!filterBtnStyle)
 
     return setVisibleAuthor(!visibleAuthor)
   }
@@ -57,74 +62,64 @@ export function Filter() {
   }
 
   return (
-    <div className="centerblock__filter filter">
-      <div className="filter__title">Искать по:</div>
-      <div
-        className={`filter__button button-author _btn-text ${
-          !visibleAuthor ? 'filter__button_active' : ''
-        }`}
+    <StyledFilter>
+      <StyledFilterTitle>Искать по:</StyledFilterTitle>
+      <StyledFilterButton
+        styledBtn={visibleAuthor}
         onClick={showFilterDropdownAuthor}
       >
         исполнителю
-      </div>
+      </StyledFilterButton>
       {!visibleAuthor && <FilterDropdownAuthor />}
-      <div
-        className={`filter__button button-year _btn-text ${
-          !visibleYear ? 'filter__button_active' : ''
-        }`}
+      <StyledFilterButton
+        styledBtn={visibleYear}
         onClick={showFilterDropdownYear}
       >
         году выпуска
-      </div>
+      </StyledFilterButton>
       {!visibleYear && <FilterDropdownYear />}
-      <div
-        className={`filter__button button-genre _btn-text ${
-          !visibleGenre ? 'filter__button_active' : ''
-        }`}
+      <StyledFilterButton
+        styledBtn={visibleGenre}
         onClick={showFilterDropdownGenre}
       >
         жанру
-      </div>
+      </StyledFilterButton>
       {!visibleGenre && <FilterDropdownGenre />}
-    </div>
+    </StyledFilter>
   )
 }
 
 export function FilterDropdownAuthor() {
   return (
-    <div className="filter__dropdown" style={{ top: '290px', left: '445px' }}>
-      <div className="filter__dropdown-list">
+    <StyledDropdown style={{ top: '275px', left: '445px' }}>
+      <StyledDropdownList>
         {authors.map((author, index) => (
-          <div className="filter__dropdown-list-item _btn-text" key={index}>
-            {author}
-          </div>
+          <StyledDropdownItem key={index}>{author}</StyledDropdownItem>
         ))}
-      </div>
-    </div>
+      </StyledDropdownList>
+    </StyledDropdown>
   )
 }
 
 export function FilterDropdownYear() {
   return (
-    <div className="filter__year" style={{ top: '290px', left: '595px' }}>
+    <StyledDropdownYear style={{ top: '275px', left: '595px' }}>
       <input id="1" type="radio" name="year" />
       <label htmlFor="1">Более новые</label>
       <input id="2" type="radio" name="year" />
       <label htmlFor="2">Более старые</label>
-    </div>
+    </StyledDropdownYear>
   )
 }
 
 export function FilterDropdownGenre() {
   return (
-    <div className="filter__dropdown" style={{ top: '290px', left: '743px' }}>
-      <div className="filter__dropdown-list">
+    <StyledDropdown style={{ top: '275px', left: '743px' }}>
+      <StyledDropdownList>
         {genres.map((genre, index) => (
-          <div className="filter__dropdown-list-item _btn-text  " key={index}>
-            {genre}
-          </div>
+          <StyledDropdownItem key={index}>{genre}</StyledDropdownItem>
         ))}
-      </div>
-    </div>
+      </StyledDropdownList>
+    </StyledDropdown>
   )
 }
