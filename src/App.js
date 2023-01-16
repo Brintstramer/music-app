@@ -1,4 +1,3 @@
-import './css/style.css'
 import {
   Burger,
   Search,
@@ -13,32 +12,50 @@ import {
 import { Filter } from './components/filter'
 import { Tracks } from './components/tracks'
 import { SkeletonTheme } from 'react-loading-skeleton'
+import {
+  StyledContainer,
+  StyledContent,
+  StyledHeading,
+  StyledMain,
+  StyledMainCenterblock,
+  StyledMainNav,
+  StyledMainSidebar,
+  StyledPlayer,
+  StyledPlayerBlock,
+  StyledPlayerBtns,
+  StyledPlayerContent,
+  StyledPlayerProgress,
+  StyledPlaylist,
+  StyledSidebarBlock,
+  StyledSidebarBlockList,
+  StyledWrapper,
+} from './styles/styles'
 
 function App() {
   return (
-    <div className="wrapper">
-      <div className="container">
+    <StyledWrapper>
+      <StyledContainer>
         <SkeletonTheme baseColor="#313131" highlightColor="#525252">
-          <main className="main">
-            <nav className="main__nav nav">
-              <Logo></Logo>
-              <Burger></Burger>
-            </nav>
-            <div className="main__centerblock centerblock">
+          <StyledMain>
+            <StyledMainNav>
+              <Logo />
+              <Burger />
+            </StyledMainNav>
+            <StyledMainCenterblock>
               <Search></Search>
-              <h2 className="centerblock__h2">Треки</h2>
+              <StyledHeading>Треки</StyledHeading>
               <Filter></Filter>
-              <div className="centerblock__content">
-                <div className="content__playlist playlist">
+              <StyledContent>
+                <StyledPlaylist>
                   <PlaylistTitleCol></PlaylistTitleCol>
                   <Tracks></Tracks>
-                </div>
-              </div>
-            </div>
-            <div className="main__sidebar sidebar">
+                </StyledPlaylist>
+              </StyledContent>
+            </StyledMainCenterblock>
+            <StyledMainSidebar>
               <SidebarPersonal></SidebarPersonal>
-              <div className="sidebar__block">
-                <div className="sidebar__list">
+              <StyledSidebarBlock>
+                <StyledSidebarBlockList>
                   <Selection
                     src="img/playlist01.png"
                     alt="day's playlist"
@@ -51,27 +68,25 @@ function App() {
                     src="img/playlist03.png"
                     alt="indie-charge"
                   ></Selection>
-                </div>
-              </div>
-            </div>
-          </main>
-          <div className="bar">
-            <div className="bar__content">
-              <div className="bar__player-progress"></div>
-              <div className="bar__player-block">
-                <div className="bar__player player">
+                </StyledSidebarBlockList>
+              </StyledSidebarBlock>
+            </StyledMainSidebar>
+          </StyledMain>
+          <StyledPlayer>
+            <StyledPlayerContent>
+              <StyledPlayerProgress />
+              <StyledPlayerBlock>
+                <StyledPlayerBtns>
                   <PlayerControls></PlayerControls>
-
                   <PlayerTrack></PlayerTrack>
-                </div>
+                </StyledPlayerBtns>
                 <Volume></Volume>
-              </div>
-            </div>
-          </div>
-          <footer className="footer"></footer>
+              </StyledPlayerBlock>
+            </StyledPlayerContent>
+          </StyledPlayer>
         </SkeletonTheme>
-      </div>
-    </div>
+      </StyledContainer>
+    </StyledWrapper>
   )
 }
 
